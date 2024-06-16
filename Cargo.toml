@@ -1,0 +1,21 @@
+[package]
+name = "d2wm_parser"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+name = "d2wm_parser"
+
+[dependencies]
+d2-stampede = { git = "https://github.com/Rupas1k/d2-stampede", features = ["mimalloc"] }
+d2-stampede-observers = { git = "https://github.com/Rupas1k/d2-stampede" }
+hashbrown = "0.14"
+anyhow = "1.0"
+pyo3 = { version = "0.21", features = ["extension-module"] }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+opt-level = 3
+strip = "symbols"
