@@ -86,11 +86,11 @@ impl Observer for App {
                     vec_y: property!(ward, "CBodyComponent.m_vecY"),
                     vec_z: property!(ward, "CBodyComponent.m_vecZ"),
                     radiant_networth: property!(
-                        ctx.entities.get_by_class_name("CDOTA_DataRadiant")?,
+                        ctx.entities().get_by_class_name("CDOTA_DataRadiant")?,
                         "m_vecDataTeam.0003.m_iNetWorth"
                     ),
                     dire_networth: property!(
-                        ctx.entities.get_by_class_name("CDOTA_DataDire")?,
+                        ctx.entities().get_by_class_name("CDOTA_DataDire")?,
                         "m_vecDataTeam.0002.m_iNetWorth"
                     ),
                 };
@@ -110,7 +110,7 @@ impl WardsObserver for App {
         match event {
             WardEvent::Placed => {
                 let owner_handle: usize = property!(ward, "m_hOwnerEntity");
-                let owner = ctx.entities.get_by_handle(owner_handle)?;
+                let owner = ctx.entities().get_by_handle(owner_handle)?;
                 let mut player_slot: usize = if let Some(x) = try_property!(owner, "m_nPlayerID") {
                     x
                 } else if let Some(x) = try_property!(owner, "m_iPlayerID") {
@@ -152,7 +152,7 @@ impl WardsObserver for App {
 #[pyfunction]
 pub fn parse_replay(data: &[u8]) -> PyResult<Vec<Output>> {
     std::panic::catch_unwind(|| {
-        let mut parser = Parser::new(data);
+        let mut parser = Parser::new(data)?;
 
         let game_time = parser.register_observer::<GameTime>();
         let players = parser.register_observer::<Players>();
@@ -164,7 +164,7 @@ pub fn parse_replay(data: &[u8]) -> PyResult<Vec<Output>> {
         app.borrow_mut().game_time = game_time;
         app.borrow_mut().players = players;
 
-        parser.run()?;
+        parser.run_to_end()?;
 
         let x = Ok(app.borrow_mut().result.clone());
         x
