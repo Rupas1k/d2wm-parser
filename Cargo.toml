@@ -12,7 +12,7 @@ d2-stampede = "0.1"
 d2-stampede-observers = "0.1"
 hashbrown = "0.14"
 anyhow = "1.0"
-pyo3 = { version = "0.21", features = ["extension-module"] }
+pyo3 = { version = "0.22", features = ["extension-module"] }
 
 [profile.release]
 lto = "fat"
