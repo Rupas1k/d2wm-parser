@@ -1,4 +1,4 @@
-use anyhow::{bail, Result};
+use anyhow::bail;
 use hashbrown::HashMap;
 use pyo3::prelude::*;
 use std::cell::RefCell;
@@ -51,7 +51,7 @@ struct App {
 }
 
 impl Observer for App {
-    fn on_tick_end(&mut self, ctx: &Context) -> Result<()> {
+    fn on_tick_end(&mut self, ctx: &Context) -> ObserverResult {
         if let Ok(start_time) = self.game_time.borrow().start_time() {
             while let Some((ward, tick, event)) = self.pending_entries.pop_front() {
                 let handle = ward.handle();
@@ -100,13 +100,13 @@ impl Observer for App {
         Ok(())
     }
 
-    fn epilogue(&mut self, ctx: &Context) -> Result<()> {
+    fn epilogue(&mut self, ctx: &Context) -> ObserverResult {
         self.on_tick_end(ctx)
     }
 }
 
 impl WardsObserver for App {
-    fn on_ward(&mut self, ctx: &Context, ward_class: WardClass, event: WardEvent, ward: &Entity) -> Result<()> {
+    fn on_ward(&mut self, ctx: &Context, ward_class: WardClass, event: WardEvent, ward: &Entity) -> ObserverResult {
         match event {
             WardEvent::Placed => {
                 let owner_handle: usize = property!(ward, "m_hOwnerEntity");
