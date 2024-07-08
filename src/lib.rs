@@ -128,7 +128,7 @@ impl WardsObserver for App {
                     WardEntry {
                         hero_handle,
                         placed_tick: self.game_time.borrow().tick(ctx)?,
-                        is_radiant: player.team == 3,
+                        is_radiant: player.team == 2,
                         is_observer: ward_class == WardClass::Observer,
                     },
                 );
