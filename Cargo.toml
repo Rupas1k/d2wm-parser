@@ -8,8 +8,8 @@ crate-type = ["cdylib"]
 name = "d2wm_parser"
 
 [dependencies]
-d2-stampede = { git = "https://github.com/Rupas1k/d2-stampede", features = ["mimalloc"] }
-d2-stampede-observers = { git = "https://github.com/Rupas1k/d2-stampede" }
+d2-stampede = "0.1"
+d2-stampede-observers = "0.1"
 hashbrown = "0.14"
 anyhow = "1.0"
 pyo3 = { version = "0.21", features = ["extension-module"] }
