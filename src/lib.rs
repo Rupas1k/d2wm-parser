@@ -87,11 +87,11 @@ impl Observer for App {
                     vec_z: property!(ward, "CBodyComponent.m_vecZ"),
                     radiant_networth: property!(
                         ctx.entities().get_by_class_name("CDOTA_DataRadiant")?,
-                        "m_vecDataTeam.0003.m_iNetWorth"
+                        "m_vecDataTeam.0002.m_iNetWorth"
                     ),
                     dire_networth: property!(
                         ctx.entities().get_by_class_name("CDOTA_DataDire")?,
-                        "m_vecDataTeam.0002.m_iNetWorth"
+                        "m_vecDataTeam.0003.m_iNetWorth"
                     ),
                 };
                 self.result.push(output);
