@@ -50,8 +50,10 @@ struct App {
     result: Vec<Output>,
 }
 
-impl Observer for App {
-    fn on_tick_end(&mut self, ctx: &Context) -> ObserverResult {
+#[observer]
+impl App {
+    #[on_tick_end]
+    fn tick_end(&mut self, ctx: &Context) -> ObserverResult {
         if let Ok(start_time) = self.game_time.borrow().start_time() {
             while let Some((ward, tick, event)) = self.pending_entries.pop_front() {
                 let handle = ward.handle();
@@ -98,10 +100,6 @@ impl Observer for App {
             }
         }
         Ok(())
-    }
-
-    fn epilogue(&mut self, ctx: &Context) -> ObserverResult {
-        self.on_tick_end(ctx)
     }
 }
 
@@ -165,6 +163,8 @@ pub fn parse_replay(data: &[u8]) -> PyResult<Vec<Output>> {
         app.borrow_mut().players = players;
 
         parser.run_to_end()?;
+        
+        app.borrow_mut().tick_end(parser.context())?;
 
         let x = Ok(app.borrow_mut().result.clone());
         x

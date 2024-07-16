@@ -8,8 +8,8 @@ crate-type = ["cdylib"]
 name = "d2wm_parser"
 
 [dependencies]
-d2-stampede = "0.1"
-d2-stampede-observers = "0.1"
+d2-stampede = "0.2"
+d2-stampede-observers = "0.2"
 hashbrown = "0.14"
 anyhow = "1.0"
 pyo3 = { version = "0.22", features = ["extension-module"] }
